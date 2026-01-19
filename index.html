@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShadowStyle Card Game</title>
+
+<style>
+/* =====================
+   全体
+===================== */
+body{
+  margin:0;
+  font-family:"Hiragino Kaku Gothic ProN",sans-serif;
+  user-select:none;
+  background:radial-gradient(circle at center,#1c2d4f 0%,#050b18 70%);
+  color:#fff;
+}
+
+/* =====================
+   ゲーム領域
+===================== */
+#game{
+  max-width:420px;
+  margin:auto;
+  position:relative;
+  padding-bottom:260px; /* 手札分しっかり確保 */
+  z-index:1;
+}
+
+.leader{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:8px;
+  background:rgba(0,0,0,.6);
+}
+
+.leader img{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  border:2px solid #fff;
+}
+
+.field{
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  min-height:120px;
+  margin:6px 0;
+}
+
+.slot{
+  width:64px;
+  height:90px;
+  border-radius:10px;
+  background:rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* =====================
+   カード
+===================== */
+.card{
+  width:64px;
+  height:90px;
+  border-radius:12px;
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(145deg,#f5e6b8,#b89b5e);
+  padding:2px;
+  box-shadow:0 6px 14px rgba(0,0,0,.8);
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:2px;
+  border-radius:10px;
+  background:#000;
+  z-index:0;
+}
+
+.card img{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+/* 前面固定 */
+.cost,.stats,.guard{
+  position:absolute;
+  z-index:3;
+}
+
+.cost{
+  top:2px;left:2px;
+  width:20px;height:20px;
+  border-radius:50%;
+  background:#1d6cff;
+  font-size:12px;font-weight:bold;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.guard{
+  top:2px;right:2px;
+}
+
+.stats{
+  bottom:8px; /* 見切れ防止 */
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:0 6px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.atk{background:#b51212;padding:1px 4px;border-radius:6px;}
+.hp2{background:#1c7c3b;padding:1px 4px;border-radius:6px;}
+
+/* =====================
+   手札（クリック問題完全解決）
+===================== */
+.hand{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:200px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  gap:6px;
+  background:linear-gradient(transparent,#000);
+  z-index:10;
+
+  /* ★ 重要：手札レイヤーはクリックを通す */
+  pointer-events:none;
+}
+
+.hand .card{
+  pointer-events:auto; /* カードだけ操作可 */
+  transition:.2s;
+}
+
+.hand .card:hover{
+  transform:scale(1.2) translateY(-20px);
+  z-index:20;
+}
+
+/* 選択中 */
+.selected{
+  outline:3px solid gold;
+}
+
+/* =====================
+   ターン終了ボタン
+===================== */
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  font-size:16px;
+  background:#ffd36a;
+  font-weight:bold;
+  cursor:pointer;
+  position:relative;
+  z-index:5;
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+  <div class="leader">
+    <img id="enemyImg">
+    <div>❤️ <span id="enemyHP"></span></div>
+  </div>
+
+  <div id="enemyField" class="field"></div>
+  <hr>
+  <div id="playerField" class="field"></div>
+
+  <div class="leader">
+    <img id="playerImg">
+    <div>❤️ <span id="playerHP"></span> / 🔵 PP:<span id="playerPP"></span></div>
+  </div>
+
+  <button onclick="endTurn()">ターン終了</button>
+</div>
+
+<div id="hand" class="hand"></div>
+
+<script>
+/* =====================
+   ロジック（安定版）
+===================== */
+const MAX_HP=20, MAX_PP=10;
+
+const CARDS=[
+ {name:"守護兵",img:"nojiko.jpg",cost:2,atk:2,hp:2,ab:["守護"]},
+ {name:"疾走兵",img:"nojiko.jpg",cost:3,atk:3,hp:3,ab:["疾走"]},
+ {name:"連撃兵",img:"nojiko.jpg",cost:4,atk:3,hp:4,ab:["連撃"]},
+ {name:"暗殺者",img:"nojiko.jpg",cost:5,atk:4,hp:3,ab:["必殺"]}
+];
+
+const P={hp:20,pp:1,maxPP:1,deck:[],hand:[],field:[]};
+const E={hp:20,pp:1,maxPP:1,deck:[],hand:[],field:[]};
+let selected=null;
+
+enemyImg.src="nojiko.jpg";
+playerImg.src="nojiko.jpg";
+
+/* 初期化 */
+function shuffle(a){return a.sort(()=>Math.random()-0.5);}
+function init(p){
+ p.deck=[];
+ for(let i=0;i<3;i++)CARDS.forEach(c=>p.deck.push({...c}));
+ shuffle(p.deck);
+ p.hand=[p.deck.pop(),p.deck.pop(),p.deck.pop()];
+}
+init(P);init(E);
+
+/* 描画 */
+function draw(){
+ enemyHP.textContent=E.hp;
+ playerHP.textContent=P.hp;
+ playerPP.textContent=P.pp;
+
+ enemyField.innerHTML="";
+ playerField.innerHTML="";
+ hand.innerHTML="";
+
+ for(let i=0;i<5;i++){
+  enemyField.appendChild(slot(E.field[i],false));
+  playerField.appendChild(slot(P.field[i],true));
+ }
+
+ P.hand.forEach(c=>{
+  const d=card(c);
+  d.onclick=()=>summon(c);
+  hand.appendChild(d);
+ });
+}
+
+function slot(c,isMe){
+ const s=document.createElement("div");s.className="slot";
+ if(!c)return s;
+ const d=card(c);
+ if(isMe)d.onclick=()=>select(c,d);
+ else if(selected)d.onclick=()=>attack(selected,c);
+ s.appendChild(d);return s;
+}
+
+function card(c){
+ const d=document.createElement("div");d.className="card";
+ d.innerHTML=`
+ <img src="${c.img}">
+ <div class="cost">${c.cost}</div>
+ ${c.ab?.includes("守護")?'<div class="guard">🛡</div>':""}
+ <div class="stats"><span class="atk">${c.atk}</span><span class="hp2">${c.hp}</span></div>`;
+ return d;
+}
+
+/* 行動 */
+function summon(c){
+ if(P.pp<c.cost||P.field.length>=5)return;
+ P.pp-=c.cost;
+ P.field.push({...c,canAttack:c.ab?.includes("疾走"),atkCount:0});
+ P.hand.splice(P.hand.indexOf(c),1);
+ clearSelect();
+ draw();
+}
+
+function select(c,d){
+ if(!c.canAttack)return;
+ clearSelect();
+ selected=c;
+ d.classList.add("selected");
+}
+
+function clearSelect(){
+ selected=null;
+ document.querySelectorAll(".card").forEach(x=>x.classList.remove("selected"));
+}
+
+function attack(a,t){
+ const guards=E.field.filter(f=>f.ab?.includes("守護"));
+ if(guards.length&&!t.ab?.includes("守護"))return;
+
+ t.hp-=a.ab?.includes("必殺")?t.hp:a.atk;
+ a.hp-=t.ab?.includes("必殺")?a.hp:t.atk;
+
+ a.atkCount++;
+ if(!a.ab?.includes("連撃")||a.atkCount>=2)a.canAttack=false;
+
+ P.field=P.field.filter(f=>f.hp>0);
+ E.field=E.field.filter(f=>f.hp>0);
+ clearSelect();
+ draw();
+}
+
+function endTurn(){
+ P.maxPP=Math.min(P.maxPP+1,MAX_PP);
+ P.pp=P.maxPP;
+ if(P.deck.length)P.hand.push(P.deck.pop());
+ P.field.forEach(f=>{f.canAttack=true;f.atkCount=0;});
+ clearSelect();
+ draw();
+}
+
+draw();
+</script>
+
+</body>
+</html>
