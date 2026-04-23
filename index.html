@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字マジック - 誘導尋問ゲーム</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: slideIn 0.3s ease-in;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .step-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .number-btn {
+            padding: 15px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+        
+        .number-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .number-btn.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .instruction {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-next {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-next:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-next:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-restart {
+            background: #28a745;
+            color: white;
+            margin-top: 20px;
+        }
+        
+        .btn-restart:hover {
+            background: #218838;
+        }
+        
+        .result {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .result h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .result .magic-number {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .result .message {
+            font-size: 18px;
+            margin-top: 15px;
+        }
+        
+        .hidden-number {
+            background: #333;
+            color: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            background: #ddd;
+            height: 6px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #667eea;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎩 数字マジック</h1>
+        <p class="subtitle">あなたの心を読むマジック</p>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        
+        <!-- ステップ0: 初期化 -->
+        <div class="section active" id="step0">
+            <div class="step-title">マジックを始めます</div>
+            <p class="instruction">
+                これからあなたが選んだ数字を当てるマジックを行います。<br><br>
+                まず、1～10の中から「心の中で1つの数字」を選んでください。<br>
+                その数字は誰にも言わないでください。<br><br>
+                準備ができたら「開始」ボタンをクリックしてください。
+            </p>
+            <div class="button-group">
+                <button class="btn-next" onclick="startMagic()">開始</button>
+            </div>
+        </div>
+        
+        <!-- ステップ1: 1~10から5つ選ぶ -->
+        <div class="section" id="step1">
+            <div class="step-title">ステップ1️⃣ (1/4)</div>
+            <p class="instruction">
+                1～10の中から、<strong>5つの数字</strong>を選んでください。<br>
+                あなたの心の中の数字が含まれているかどうかを確認します。
+            </p>
+            <div class="numbers-grid" id="grid1">
+                <!-- 動的に生成 -->
+            </div>
+            <div class="button-group">
+                <button class="btn-next" id="btn1" onclick="confirmStep1()" disabled>次へ進む</button>
+            </div>
+        </div>
+        
+        <!-- ステップ2: 対象から3つ選ぶ -->
+        <div class="section" id="step2">
+            <div class="step-title">ステップ2️⃣ (2/4)</div>
+            <p class="instruction" id="instruction2">
+                <!-- 動的に生成 -->
+            </p>
+            <div class="numbers-grid" id="grid2">
+                <!-- 動的に生成 -->
+            </div>
+            <div class="button-group">
+                <button class="btn-next" id="btn2" onclick="confirmStep2()" disabled>次へ進む</button>
+            </div>
+        </div>
+        
+        <!-- ステップ3: 対象から2つ選ぶ -->
+        <div class="section" id="step3">
+            <div class="step-title">ステップ3️⃣ (3/4)</div>
+            <p class="instruction" id="instruction3">
+                <!-- 動的に生成 -->
+            </p>
+            <div class="numbers-grid" id="grid3">
+                <!-- 動的に生成 -->
+            </div>
+            <div class="button-group">
+                <button class="btn-next" id="btn3" onclick="confirmStep3()" disabled>次へ進む</button>
+            </div>
+        </div>
+        
+        <!-- ステップ4: 結果 -->
+        <div class="section" id="step4">
+            <div class="step-title">ステップ4️⃣ (4/4) - 結果！</div>
+            <p class="instruction">
+                あなたの選んだ数字は...
+            </p>
+            <div class="result">
+                <h2>✨ マジック結果 ✨</h2>
+                <p>あなたが選んだ数字は...</p>
+                <div class="magic-number" id="revealNumber">?</div>
+                <p class="message">当たっていましたか？</p>
+            </div>
+            <div class="button-group">
+                <button class="btn-restart" onclick="resetMagic()">もう一度遊ぶ</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let targetNumber = null;
+        let currentNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let step1Selection = [];
+        let step2Selection = [];
+        let step3Selection = [];
+        let secretNumber = null;
+        
+        function generateNumberButtons(numbers, stepNum) {
+            const grid = document.getElementById(`grid${stepNum}`);
+            grid.innerHTML = '';
+            
+            numbers.forEach(num => {
+                const btn = document.createElement('button');
+                btn.textContent = num;
+                btn.className = 'number-btn';
+                btn.onclick = () => toggleNumber(btn, stepNum, num);
+                grid.appendChild(btn);
+            });
+        }
+        
+        function toggleNumber(btn, stepNum, num) {
+            btn.classList.toggle('selected');
+            
+            let selection;
+            let maxSelect;
+            
+            if (stepNum === 1) {
+                selection = step1Selection;
+                maxSelect = 5;
+            } else if (stepNum === 2) {
+                selection = step2Selection;
+                maxSelect = 3;
+            } else if (stepNum === 3) {
+                selection = step3Selection;
+                maxSelect = 2;
+            }
+            
+            if (btn.classList.contains('selected')) {
+                if (selection.length < maxSelect) {
+                    selection.push(num);
+                } else {
+                    btn.classList.remove('selected');
+                    alert(`${maxSelect}個まで選べます`);
+                }
+            } else {
+                const index = selection.indexOf(num);
+                if (index > -1) {
+                    selection.splice(index, 1);
+                }
+            }
+            
+            updateNextButton(stepNum);
+        }
+        
+        function updateNextButton(stepNum) {
+            let selection;
+            let maxSelect;
+            
+            if (stepNum === 1) {
+                selection = step1Selection;
+                maxSelect = 5;
+            } else if (stepNum === 2) {
+                selection = step2Selection;
+                maxSelect = 3;
+            } else if (stepNum === 3) {
+                selection = step3Selection;
+                maxSelect = 2;
+            }
+            
+            const btn = document.getElementById(`btn${stepNum}`);
+            btn.disabled = selection.length !== maxSelect;
+        }
+        
+        function startMagic() {
+            // 秘密の数字を1~10からランダムに選ぶ
+            secretNumber = Math.floor(Math.random() * 10) + 1;
+            
+            goToStep(1);
+            generateNumberButtons([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1);
+            updateProgressBar(25);
+        }
+        
+        function confirmStep1() {
+            // Step1で選ばれた数字に秘密の数字が含まれているかチェック
+            if (step1Selection.includes(secretNumber)) {
+                // 秘密の数字が含まれている
+                targetNumber = secretNumber;
+                currentNumbers = step1Selection.sort((a, b) => a - b);
+            } else {
+                // 秘密の数字が含まれていない
+                // 選ばれなかった数字の中から秘密の数字を選ぶ
+                const notSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(n => !step1Selection.includes(n));
+                targetNumber = notSelected[Math.floor(Math.random() * notSelected.length)];
+                currentNumbers = notSelected.sort((a, b) => a - b);
+            }
+            
+            goToStep(2);
+            generateNumberButtons(currentNumbers, 2);
+            
+            const instruction = document.getElementById('instruction2');
+            instruction.innerHTML = `現在、対象となる数字は以下です：<br><strong>${currentNumbers.join(', ')}</strong><br><br>これらの中から<strong>3つの数字</strong>を選んでください。`;
+            
+            updateProgressBar(50);
+        }
+        
+        function confirmStep2() {
+            // Step2で選ばれた数字に対象の数字が含まれているかチェック
+            if (step2Selection.includes(targetNumber)) {
+                currentNumbers = step2Selection.sort((a, b) => a - b);
+            } else {
+                const notSelected = currentNumbers.filter(n => !step2Selection.includes(n));
+                currentNumbers = notSelected.sort((a, b) => a - b);
+            }
+            
+            goToStep(3);
+            generateNumberButtons(currentNumbers, 3);
+            
+            const instruction = document.getElementById('instruction3');
+            instruction.innerHTML = `対象の数字が絞られました：<br><strong>${currentNumbers.join(', ')}</strong><br><br>これらの中から<strong>2つの数字</strong>を選んでください。`;
+            
+            updateProgressBar(75);
+        }
+        
+        function confirmStep3() {
+            // 最終判定
+            if (step3Selection.includes(targetNumber)) {
+                // そのまま
+            } else {
+                // 含まれていない方が答え
+                targetNumber = currentNumbers.find(n => !step3Selection.includes(n));
+            }
+            
+            goToStep(4);
+            document.getElementById('revealNumber').textContent = targetNumber;
+            updateProgressBar(100);
+        }
+        
+        function goToStep(stepNum) {
+            // すべてのセクションを非表示にする
+            for (let i = 0; i <= 4; i++) {
+                document.getElementById(`step${i}`).classList.remove('active');
+            }
+            // 指定されたステップを表示
+            document.getElementById(`step${stepNum}`).classList.add('active');
+        }
+        
+        function updateProgressBar(percentage) {
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+        
+        function resetMagic() {
+            // すべてをリセット
+            targetNumber = null;
+            currentNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            step1Selection = [];
+            step2Selection = [];
+            step3Selection = [];
+            secretNumber = null;
+            
+            // 選択状態をリセット
+            document.querySelectorAll('.number-btn.selected').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            
+            updateProgressBar(0);
+            goToStep(0);
+        }
+    </script>
+</body>
+</html>
