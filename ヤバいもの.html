@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心霊体験談 - 後ろを見ない</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-bg: #0a0e1a;
+            --darker-bg: #050609;
+            --card-bg: #111827;
+            --accent-red: #cc1111;
+            --accent-red-light: #ff4444;
+            --text-primary: #d0d0d0;
+            --text-secondary: #999;
+            --border-color: #8b0000;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Georgia', serif;
+            background: linear-gradient(180deg, var(--darker-bg) 0%, var(--dark-bg) 50%, #0f0f1e 100%);
+            color: var(--text-primary);
+            line-height: 1.8;
+            min-height: 100vh;
+        }
+
+        /* ===== ヘッダー ===== */
+        header {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 0, 0, 0.9) 100%);
+            border-bottom: 4px solid var(--accent-red);
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 2px,
+                rgba(255, 68, 68, 0.03) 2px,
+                rgba(255, 68, 68, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: var(--accent-red-light);
+            text-shadow: 0 0 20px rgba(255, 68, 68, 0.5), 2px 2px 10px rgba(0, 0, 0, 0.9);
+            margin-bottom: 10px;
+            letter-spacing: 4px;
+            animation: titleFlicker 3s infinite;
+        }
+
+        .subtitle {
+            color: #aa6666;
+            font-size: 1.2em;
+            font-style: italic;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(200, 50, 50, 0.3);
+        }
+
+        .header-decoration {
+            color: var(--accent-red);
+            font-size: 0.9em;
+            margin-top: 20px;
+            letter-spacing: 8px;
+        }
+
+        @keyframes titleFlicker {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 68, 68, 0.5), 2px 2px 10px rgba(0, 0, 0, 0.9); }
+            50% { text-shadow: 0 0 30px rgba(255, 68, 68, 0.8), 2px 2px 15px rgba(0, 0, 0, 0.9), inset 0 0 10px rgba(255, 68, 68, 0.3); }
+        }
+
+        /* ===== ナビゲーション ===== */
+        .nav-container {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 10, 10, 0.9) 100%);
+            border-bottom: 2px solid var(--accent-red);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 15px 20px;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--accent-red-light);
+            margin: 5px 0;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(10px, 10px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 0;
+            max-height: 100%;
+            overflow: visible;
+            transition: 0.3s;
+        }
+
+        nav a {
+            color: #cc9999;
+            text-decoration: none;
+            padding: 12px 15px;
+            font-weight: bold;
+            font-size: 0.95em;
+            border-right: 1px solid var(--accent-red);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        nav a:last-child {
+            border-right: none;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-red-light);
+            transition: width 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-red-light);
+            text-shadow: 0 0 10px var(--accent-red);
+        }
+
+        nav a:hover::before {
+            width: 100%;
+        }
+
+        /* ===== メインコンテンツ ===== */
+        main {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== 目次 ===== */
+        .toc {
+            background: linear-gradient(135deg, rgba(40, 10, 10, 0.6) 0%, rgba(20, 10, 20, 0.6) 100%);
+            border: 2px solid var(--accent-red);
+            border-radius: 8px;
+            padding: 25px 20px;
+            margin: 20px 0 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 68, 68, 0.05);
+            position: relative;
+        }
+
+        .toc::before {
+            content: '📖 目次';
+            display: block;
+            color: var(--accent-red-light);
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        .toc-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .toc-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toc-icon {
+            font-size: 1.2em;
+            color: var(--accent-red);
+            min-width: 20px;
+        }
+
+        .toc a {
+            color: #bb8888;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: block;
+            width: 100%;
+        }
+
+        .toc a:hover {
+            color: var(--accent-red-light);
+            background: rgba(255, 68, 68, 0.1);
+            padding-left: 16px;
+        }
+
+        /* ===== セクション ===== */
+        section {
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.8) 0%, rgba(25, 10, 15, 0.8) 100%);
+            border-left: 6px solid var(--accent-red);
+            border-radius: 8px;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(255, 68, 68, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+        }
+
+        section h2 {
+            color: var(--accent-red-light);
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            margin-top: 0;
+            text-shadow: 0 0 15px rgba(255, 68, 68, 0.4), 2px 2px 8px rgba(0, 0, 0, 0.8);
+            position: relative;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent-red-light);
+        }
+
+        section p {
+            margin-bottom: 18px;
+            font-size: 1.05em;
+            line-height: 2;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .chapter-number {
+            display: inline-block;
+            background: var(--accent-red);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.8em;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+        /* ===== ハイライト ===== */
+        .highlight {
+            color: var(--accent-red-light);
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(100, 0, 30, 0.3) 100%);
+            border-left: 5px solid var(--accent-red);
+            border-right: 1px solid rgba(255, 68, 68, 0.2);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 6px;
+            font-style: italic;
+            color: #ffb3b3;
+            box-shadow: 0 4px 15px rgba(139, 0, 0, 0.2), inset 0 0 15px rgba(255, 68, 68, 0.05);
+            position: relative;
+        }
+
+        .warning-box::before {
+            content: '⚠️';
+            position: absolute;
+            left: 10px;
+            top: 15px;
+            font-size: 1.5em;
+            opacity: 0.6;
+        }
+
+        .warning-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(255, 68, 68, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        /* ===== セクション区切り ===== */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px 0;
+            gap: 15px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+        }
+
+        .divider-icon {
+            color: var(--accent-red);
+            font-size: 1.5em;
+            opacity: 0.7;
+        }
+
+        /* ===== 強調テキスト ===== */
+        .dramatic-text {
+            font-size: 1.2em;
+            color: var(--accent-red-light);
+            font-weight: bold;
+            text-align: center;
+            margin: 30px 0;
+            text-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .dramatic-text-large {
+            font-size: 1.4em;
+            color: var(--accent-red-light);
+            font-weight: bold;
+            text-align: center;
+            margin: 40px 0;
+            text-shadow: 0 0 20px rgba(255, 68, 68, 0.6);
+            letter-spacing: 3px;
+            line-height: 1.8;
+        }
+
+        /* ===== 引用シーン ===== */
+        .dialogue {
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 4px solid var(--accent-red);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #ffcccc;
+            font-style: italic;
+        }
+
+        /* ===== フッター ===== */
+        footer {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(30, 10, 10, 0.9) 100%);
+            border-top: 4px solid var(--accent-red);
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 60px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.7);
+        }
+
+        footer p {
+            margin: 8px 0;
+            font-size: 0.95em;
+        }
+
+        .footer-decoration {
+            margin-top: 20px;
+            color: var(--accent-red);
+            font-size: 0.9em;
+            letter-spacing: 8px;
+        }
+
+        /* ===== スクロールトップボタン ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-red-light));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+            z-index: 999;
+            transition: all 0.3s;
+        }
+
+        .scroll-top:hover {
+            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.6);
+            transform: translateY(-3px);
+        }
+
+        .scroll-top.show {
+            display: flex;
+        }
+
+        /* ===== アニメーション ===== */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .divider-icon {
+            animation: pulse 3s infinite;
+        }
+
+        /* ===== レスポンシブ対応 ===== */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+                letter-spacing: 2px;
+            }
+
+            section h2 {
+                font-size: 1.5em;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            nav {
+                flex-direction: column;
+                max-height: 0;
+                overflow: hidden;
+                padding: 0;
+                background: rgba(0, 0, 0, 0.95);
+            }
+
+            nav.active {
+                max-height: 500px;
+                padding: 15px 0;
+            }
+
+            nav a {
+                width: 100%;
+                padding: 15px 20px;
+                text-align: left;
+                border-right: none;
+                border-bottom: 1px solid var(--accent-red);
+            }
+
+            nav a:last-child {
+                border-bottom: none;
+            }
+
+            .toc-content {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 20px 15px;
+                margin-bottom: 25px;
+            }
+
+            section p {
+                font-size: 1em;
+                margin-bottom: 15px;
+            }
+
+            .dramatic-text {
+                font-size: 1.1em;
+            }
+
+            .dramatic-text-large {
+                font-size: 1.2em;
+            }
+
+            main {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            section h2 {
+                font-size: 1.3em;
+            }
+
+            section {
+                border-left-width: 4px;
+                padding: 15px 12px;
+            }
+
+            .warning-box {
+                padding: 15px 15px 15px 40px;
+                font-size: 0.95em;
+            }
+
+            .scroll-top {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                right: 15px;
+                font-size: 1.3em;
+            }
+        }
+
+        /* ===== スムーススクロール ===== */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ===== カスタムスクロールバー ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--darker-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-red);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-red-light);
+        }
+
+        /* ===== テキスト選択 ===== */
+        ::selection {
+            background: var(--accent-red);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- ===== ヘッダー ===== -->
+    <header>
+        <h1>心霊体験談</h1>
+        <p class="subtitle">〜 後ろを見ない 〜</p>
+        <div class="header-decoration">■ ■ ■ ■ ■</div>
+    </header>
+
+    <!-- ===== ナビゲーション ===== -->
+    <div class="nav-container">
+        <button class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="nav-menu">
+            <a href="#chapter1">第1章 心霊体験談</a>
+            <a href="#chapter2">第2章 遭遇</a>
+            <a href="#chapter3">第3章 廃病院</a>
+            <a href="#chapter4">第4章 その後</a>
+            <a href="#chapter5">第5章 異変</a>
+            <a href="#chapter6">第6章 インターフォン</a>
+            <a href="#chapter7">第7章 後日談</a>
+            <a href="#chapter8">第8章 つぎは私</a>
+        </nav>
+    </div>
+
+    <!-- ===== メインコンテンツ ===== -->
+    <main>
+        <!-- 目次 -->
+        <div class="toc">
+            <div class="toc-content">
+                <div class="toc-item">
+                    <span class="toc-icon">▸</span>
+                    <a href="#chapter1">第1章 心霊体験談</a>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-icon">▸</span>
+                    <a href="#chapter2">第2章 遭遇</a>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-icon">▸</span>
+                    <a href="#chapter3">第3章 廃病院</a>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-icon">▸</span>
+                    <a href="#chapter4">第4章 その後</a>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-icon">▸</span>
+                    <a href="#chapter5">第5章 異変</a>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-icon">▸</span>
+                    <a href="#chapter6">第6章 インターフォン</a>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-icon">▸</span>
+                    <a href="#chapter7">第7章 後日談</a>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-icon">▸</span>
+                    <a href="#chapter8">第8章 つぎは私</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 第1章 ===== -->
+        <section id="chapter1">
+            <h2><span class="chapter-number">第1章</span>心霊体験談</h2>
+            <p>私は昔から、ほんの少しだけ<span class="highlight">"見える"</span>。</p>
+            <p>人の気配や、小動物の残したもの。</p>
+            <p>そういったものが、薄いオーラのように輪郭を持って見える。</p>
+            <p>――ただし、それだけではない。</p>
+            <p>ごく稀に、明らかに<span class="highlight">"質の違うもの"</span>に遭遇することがある。</p>
+
+            <div class="section-divider">
+                <div class="divider-line"></div>
+                <div class="divider-icon">◆</div>
+                <div class="divider-line"></div>
+            </div>
+
+            <p>神社で、一度だけ。</p>
+            <p>光を帯びた狐を見たことがある。</p>
+            <p>あれは綺麗だった。</p>
+            <p>恐怖ではなく、ただ圧倒されるような存在だった。</p>
+
+            <p>だが――同じくらいの"強さ"を持ちながら、</p>
+            <p>まったく正反対のものも存在する。</p>
+            <p>私はそれを、便宜上<span class="highlight">「ヤバいもの」</span>と呼んでいる。</p>
+            <p>そういうものに対して、私にできることは一つだけだ。</p>
+            <p>見えていないフリをすること。</p>
+            <p>それ以上のことは、何もできない。</p>
+        </section>
+
+        <div class="section-divider">
+            <div class="divider-line"></div>
+            <div class="divider-icon">◊</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- ===== 第2章 ===== -->
+        <section id="chapter2">
+            <h2><span class="chapter-number">第2章</span>遭遇</h2>
+            <p>最寄り駅からの帰り道。</p>
+            <p>人通りの少ない路地がある。</p>
+            <p>近道になるため、私はいつもそこを通っていた。</p>
+            <p>その日も、音楽を聴きながらスマートフォンに目を落としていた。</p>
+
+            <p>――ふと。</p>
+            <p>言葉にしづらい、強烈な不快感に襲われた。</p>
+            <p>ぞわり、と背筋が粟立つ。</p>
+
+            <div class="warning-box">
+                <p>「いる」<br>
+                理由はない。<br>
+                ただ、確信だけがあった。</p>
+            </div>
+
+            <p>ゆっくりと顔を上げる。</p>
+            <p>そこに、<span class="highlight">"ヤバいもの"は立っていた。</span></p>
+            <p>腹部まで垂れ下がる長い髪。</p>
+            <p>真っ赤なワンピース。</p>
+            <p>顔は髪に覆われ、目は見えないはずなのに――</p>
+            <p>なぜか分かった。</p>
+            <p><span class="highlight">"こちらを見ている"</span>。</p>
+            <p>しかも、<span class="highlight">真っ黒な、大きな目で。</span></p>
+
+            <p>喉元に刃物を突きつけられたような感覚が走る。</p>
+            <p>思考が、一瞬で白く飛んだ。</p>
+            <br></br>
+
+            <p>引き返したかった。</p>
+            <p>だが、その瞬間、ある記憶が蘇った。</p>
+            <p>以前、目が合った霊から目を逸らし、背を向けた瞬間――</p>
+            <p>そのまま<span class="highlight">"連れて帰った"</span>ことがある。</p>
+            <p>あれは偶然ではない。</p>
+            <p>そう思った。</p>
+
+            <p>だから私は、何も見えていないように振る舞い、</p>
+            <p>そのまま歩き続けた。</p>
+
+            <p>すれ違う瞬間。</p>
+            <p>息が止まりそうになる。</p>
+            <p>だが、振り返らない。</p>
+            <p><span class="highlight">振り返ってはいけない。</span></p>
+
+            <p>――通り過ぎた。</p>
+            <p>何も起きなかった。</p>
+            <p>少なくとも、その時は。</p>
+        </section>
+
+        <div class="section-divider">
+            <div class="divider-line"></div>
+            <div class="divider-icon">◊</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- ===== 第3章 ===== -->
+        <section id="chapter3">
+            <h2><span class="chapter-number">第3章</span>廃病院</h2>
+            <p>それからしばらくして、そのことは記憶の奥に沈んだ。</p>
+            <p>そしてある日。</p>
+            <p>私は高校時代の友人たちと、肝試しに行くことになった。</p>
+            <p>A子、B男、C男。</p>
+            <p>そして私の四人。</p>
+
+            <p>到着したのは、日付が変わった頃だった。</p>
+            <p>目的地は、郊外にある廃病院。</p>
+            
+            <p>  「この時間の方が出るだろ」</p>
+            <p>    C男は楽しそうに笑い、</p>
+            <p>B男はスマートフォンで録画を始めている。</p>
+
+            <p>「何か出たらYoutoubeあげよー」とノリノリだ。</p>
+            <p>私はA子の腕を支えながら、獣道を進んだ。</p>
+
+            <p>――入口に足を踏み入れた瞬間。</p>
+            <p>体が、硬直した。</p>
+            <p>吐き気。</p>
+            <p>寒気。</p>
+            <p>そして、あまりにも濃い<span class="highlight">"悪意"</span>。</p>
+            <p>視線を感じる。</p>
+            <p>すぐ上から。</p>
+
+            <p>――あれだ。</p>
+            <p>思い出した。</p>
+            <p>路地で見た、あの存在。</p>
+            <p>気づいていないフリをする。</p>
+            <p>それしかできない。</p>
+            
+            <br></br>
+            <p>その後も、意識のすべてがそこに引き寄せられ、</p>
+            <p>皆の会話に入る余裕はなかった。</p>
+
+            <p>院内は静かだった。</p>
+            <p>確かに"いる"気配はある。</p>
+            <p>だが、どれも弱い。</p>
+            <p>敵意も感じない。</p>
+            <p>拍子抜けするほど、何も起きなかった。</p>
+
+            <p>「こんなもんか」</p>
+            <p>そう言いながら、B男とC男はモンストを始めている。</p>
+            <p>A子が小さな声で言った。</p>
+            <p>「もう帰ろうよ……」</p>
+
+            <p>だが、その声は流され、</p>
+            <p>最終的に地下まで行くことになった。</p>
+            <p>私は迷ったが、A子を一人にするわけにもいかず、</p>
+            <p>結局ついていくことにした。</p>
+
+            <p>地下も同じだった。</p>
+            <p>冷たい空気。</p>
+            <p>多数の霊。</p>
+            <p>それだけ。</p>
+
+            <p>――帰ろうとした、その時。</p>
+            <p>再び、あの感覚が戻ってきた。</p>
+            <p>吐き気。</p>
+            <p>震え。</p>
+            <p>そして、濃い悪意。</p>
+
+            <div class="warning-box">
+                <p>「来ている」<br>
+                駐車場の中央で、私は気づいた。<br>
+                後ろにいる。<br>
+                逃げたい。</p>
+            </div>
+
+            <p>だが、B男とC男は二人でモンストのガチャに夢中。</p>
+            <p>声だけがどんどん遠くへ離れていく。</p>
+            <p>A子は私にしがみついたまま離れない。</p>
+            <p>上手く動けない。</p>
+            <p>恐怖で視線を上げることもできない。</p>
+            <p>真下の草木を見ながら少しずつ前に歩いた。</p>
+
+            <p>その時。</p>
+            <p><span class="highlight">A子が、糸が切れたように崩れ落ちた。</span></p>
+            <p>白目をむいている。</p>
+
+            <p class="dramatic-text-large">――その瞬間。<br>
+            私は、振り返ってしまった。</p>
+        </section>
+
+        <div class="section-divider">
+            <div class="divider-line"></div>
+            <div class="divider-icon">◊</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- ===== 第4章 ===== -->
+        <section id="chapter4">
+            <h2><span class="chapter-number">第4章</span>その後</h2>
+            <p>目が覚めた時、私は車の中にいた。</p>
+            <p>B男の車だ。</p>
+            <p>どうやら私は気絶していたようだ。</p>
+
+            <p>「大丈夫か」</p>
+            <p>C男の声が助手席から聞こえる。</p>
+
+            <p>私が、その後何があったのか聞こうとした時、</p>
+            <p>B男が遮った。</p>
+            <p>「……今はいい。帰ろう」</p>
+
+            <p>それ以上、誰も何も話さなかった。</p>
+            <br></br>
+
+            <p>私は家に帰ると、塩を体に擦り込み、</p>
+            <p>そのまま風呂に入り、眠った。</p>
+        </section>
+
+        <div class="section-divider">
+            <div class="divider-line"></div>
+            <div class="divider-icon">◊</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- ===== 第5章 ===== -->
+        <section id="chapter5">
+            <h2><span class="chapter-number">第5章</span>異変</h2>
+            <p>それから二週間。</p>
+            <p>何も起きなかった。</p>
+            <p>だが、ふとA子のことが気になった。</p>
+            <p>連絡をしてみる。</p>
+            <p>返信はない。</p>
+            <p>三日経っても、来ない。</p>
+
+            <p>元々A子は頻繁に返信する子ではなかったが、少し変だ。</p>
+            <p>同じタイミングで、B男から連絡が来た。</p>
+
+            <div class="dialogue">
+                「A子と連絡取れてるか？」
+            </div>
+
+            <p>胸騒ぎがした。</p>
+            <p>心配になり二人でA子の家を訪ねる。</p>
+            <p>（C男は会社の出張で北海道に行っていた。）</p>
+
+            <p>扉が、音を立てて開いた。</p>
+            <p>そこにいたA子は――</p>
+            <p>普段の清潔感に溢れる彼女とは</p>
+            <p>まるで別人だった。</p>
+
+            <div class="warning-box">
+                <p><span class="highlight">　　髪は乱れ、目の下は黒く落ち窪み、</span><br>
+                <span class="highlight">　　服はあの日のまま。</span><br>
+                <span class="highlight">　　泥まで、そのまま残っている。</span></p>
+            </div>
+
+            <p>部屋からは、異臭が漂っていた。</p>
+
+            <p>「スマホ無くしちゃってさ」</p>
+
+            <p>そう言って、彼女は笑った。</p>
+            <p>そして、扉を閉めた。</p>
+            <p>私たちは何も言えなかった。</p>
+        </section>
+
+        <div class="section-divider">
+            <div class="divider-line"></div>
+            <div class="divider-icon">◊</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- ===== 第6章 ===== -->
+        <section id="chapter6">
+            <h2><span class="chapter-number">第6章</span>インターフォン</h2>
+            <p>一度帰宅したものの、どうしても胸騒ぎが消えなかった。</p>
+            <p>私は、もう一度A子の家へ向かった。</p>
+            <p>時刻は二十時を少し過ぎた頃だった。</p>
+
+            <p>だが――応答はなかった。</p>
+
+            <p>部屋は暗く、気配もない。</p>
+            <p>諦めて、その日は帰ることにした。</p>
+            <p>自宅に戻ってしばらくして。</p>
+
+            <p><span class="highlight">エントランスのチャイムが鳴った。</span></p>
+            <p>時計を見る。</p>
+            <p><span class="highlight">二十三時二十分を回っていた。</span></p>
+
+            <p>「こんな時間に、誰だろう。」</p>
+            <p>嫌な予感がして、私は無視した。</p>
+
+            <p>十分ほど経った頃。</p>
+            <p>再び、音が鳴る。</p>
+
+            <p>今度は――<span class="highlight">玄関のチャイムだった。</span></p>
+
+            <p>心臓が、嫌な跳ね方をする。</p>
+            <p>「……え？」</p>
+            <p>通していないはずだ。</p>
+            <br></br>
+            
+            <p>ゆっくりとドアに近づき、</p>
+            <p>息を殺して覗き穴を覗いた。</p>
+
+            <p>そこに、A子が立っていた。</p>
+            <p>「A子だよ。○○ちゃん、あけてー」</p>
+            <p>いつも通りの声だった。</p>
+
+            <p>私は鍵へ手を伸ばしかけ――止めた。</p>
+
+            <p>こんな時間に、なぜ。</p>
+            <p>違和感が、胸に引っかかる。</p>
+            <p>もう一度、覗いた。</p>
+
+            <p>その瞬間。</p>
+            <p>私は、反射的にチェーンをかけ、後ろへ飛び退いた。</p>
+
+            <p class="dramatic-text"><span class="highlight">A子だった。</span></p>
+
+            <p class="dramatic-text">だが――</p>
+
+            <p class="dramatic-text"><span class="highlight">違う。</span><br>
+            <span class="highlight">目が、真っ黒だった。</span><br>
+            ありえないほど大きく口を開けて、<br>
+            <span class="highlight">笑っていた。</span></p>
+
+            <p>笑い声はない。</p>
+            <p>なのに、笑っていると分かる。</p>
+
+            <p>その異様さに、全身の血が引いた。</p>
+
+            <p>次の瞬間。</p>
+            <p><span class="highlight">ドン、ドン、と鈍い音が鳴る。</span></p>
+            <p>扉を叩いている。</p>
+
+            <div class="warning-box">
+                <p>　　「わたしよ？ はやくあーけーて」<br>
+                 　　甘えるような声。<br>
+                 　　だが、どこか歪んでいる。</p>
+            </div>
+
+            <p>ドン、ドン、ドン。</p>
+
+            <p>音が強くなる。</p>
+            <p>その時。</p>
+            <p>リビングから、着信音が鳴った。</p>
+            <p>私は足を引きずるようにして、スマートフォンに手を伸ばす。</p>
+
+            <p>画面には、<span class="highlight">B男の名前。</span></p>
+            <p>通話に出る。</p>
+
+            <p>助けて、と言いたい。</p>
+            <p>だが、喉が詰まり、声にならない。</p>
+            <p>息だけが漏れる。</p>
+
+            <p>それでも、必死に伝えようとする。</p>
+            <p>「……今すぐ行く。電話、切るな」</p>
+
+            <p>短く、それだけ言った。</p>
+            <p>その間にも。</p>
+
+            <p><span class="highlight">外からは音が続く。</span></p>
+            <p>爪で引っ掻くような音。</p>
+            <p>ギリ、ギリ、と嫌な音が響く。</p>
+
+            <p>そして――</p>
+
+            <p class="dramatic-text-large"><span class="highlight">「A子だよ！ 早くあけろよ！！」</span><br>
+            <span class="highlight">声が、変わった。</span><br>
+            「お前も行くんだろ！！」<br>
+            <span class="highlight">叫び声が、壁を震わせる。</span></p>
+
+            <p>私は部屋の隅で、膝を抱えていた。</p>
+
+            <p>動けない。</p>
+            <p>耳を塞いでも、音は消えない。</p>
+            <p>扉の向こうで、何かが暴れている。</p>
+            <br></br>
+
+            <p>やがて。</p>
+            <p>遠くから、<span class="highlight">サイレンの音が聞こえてきた。</span></p>
+            <p>近づいてくる。</p>
+            <p>少しずつ。</p>
+            <p>確実に。</p>
+
+            <p>外が騒がしくなる。</p>
+            <p>複数の足音。</p>
+            <p>人の声。</p>
+            <p>怒号。</p>
+
+            <p>そして――</p>
+            <p>「俺だ、B男だ。もう大丈夫」</p>
+
+            <p>扉越しに聞こえたその声で、ようやく力が抜けた。</p>
+            <p>鍵を外し、扉を開ける。</p>
+            <p>B男の姿があった。</p>
+            <p>私はそのまま、彼にしがみついた。</p>
+            <p>その時にはもう。</p>
+
+            <p class="dramatic-text"><span class="highlight">廊下には――<br>
+            B男だけだった。</span></p>
+        </section>
+
+        <div class="section-divider">
+            <div class="divider-line"></div>
+            <div class="divider-icon">◊</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- ===== 第7章 ===== -->
+        <section id="chapter7">
+            <h2><span class="chapter-number">第7章</span>後日談</h2>
+            <p>あの夜から数日後。</p>
+            <p>私は、B男に呼び出された。</p>
+            <p>いつもより口数が少なく、</p>
+            <p>どこか落ち着きがない。</p>
+            <p>しばらく無言の時間が続いたあと、</p>
+            <p>彼はぽつりと切り出した。</p>
+
+            <div class="dialogue">
+                「あの日のこと、話していいか」
+            </div>
+
+            <p>私は頷いた。</p>
+            <p>「お前らが倒れたあと、叫び声が聞こえたんだ」</p>
+            <p>低く、抑えた声だった。</p>
+            <p>「振り返ったら、A子は倒れてて、</p>
+            <p>お前は耳塞いでしゃがみ込んでた」</p>
+            <p>そこまでは、私の記憶と一致している。</p>
+            <p>だが、彼はそこで言葉を切り、ゆっくりと続けた。</p>
+
+            <div class="warning-box">
+                <p>　　「……で、入口に"いた"」<br>
+                　　空気が、わずかに張り詰める。<br>
+                　　「赤いワンピース。髪が、腹まで垂れてて」</p>
+            </div>
+
+            <p>私は何も言わなかった。</p>
+            <p>言わなくても分かる。</p>
+
+            <p>「あれ、こっち見てたんだよ」</p>
+            <p>彼の声がわずかに震えた。</p>
+            <p>「目、見えねえはずなのに……分かるんだよ。</p>
+            <p>見られてるって」</p>
+            <p>そして。</p>
+
+            <p><span class="highlight">「……指差してた」</span></p>
+
+            <p class="dramatic-text">間。</p>
+
+            <p><span class="highlight">「お前と、A子を」</span></p>
+
+            <p>さらに、もう一つ。</p>
+            <p>「口が張り裂けそうなぐらい笑ってた」</p>
+            <p>それは、楽しんでいるような笑いだった。</p>
+            <p>と彼は言った。</p>
+            <br></br>
+
+            <p>「怖がらせたくなくて、言わなかった」</p>
+            <p>そう付け加えた後、B男は続けた。</p>
+            <p>あれからずっと、私とA子の様子が気になっていたこと。</p>
+            <p>ほぼ毎日、家の前を通り、出入りを確認していたこと。</p>
+
+            <p>正直、やり過ぎだと私は思った。</p>
+            <p>だが、彼の顔は冗談を言っているようには見えなかった。</p>
+
+            <p>「……あとさ」</p>
+
+            <p>B男は少し言いにくそうに、視線を逸らした。</p>
+            <p>「お前のことも、一応見てた」</p>
+            <p>思わず顔を上げる。</p>
+            <p>「え？」</p>
+            <p>「いや、変な意味じゃなくて。</p>
+            <p>あの日一緒にいたし、念のためな」</p>
+
+            <p>軽く手を振って誤魔化すように言う。</p>
+            <p>「最初の三日間、普通に出勤してたし、様子も変じゃなかった」</p>
+            <p>「だから……お前は大丈夫だと思った」</p>
+            <br></br>
+
+            <p>少し間を置いてから、そう付け加えた。</p>
+            <p>――正直、少し腹が立った。</p>
+
+            <p>「"一応"って何よ」</p>
+            <p>思わずそう返すと、B男は苦笑いを浮かべる。</p>
+
+            <p>その反面、</p>
+            <p>「A子は……<span class="highlight">一回も外に出てない</span>」</p>
+            <p>その一言で、空気が変わる。</p>
+            <p>「LINEも、途中から全部止まってる」</p>
+            <p>静かに言う。</p>
+            <p>「だから、お前に聞いた」</p>
+
+            <p>彼の声には、わずかに焦りが混じっていた。</p>
+
+            <p>そして、B男は話を続ける</p>
+            <p>「なんか、嫌な感じがしてさ」</p>
+            <p>A子の家に向かった。</p>
+            <p>玄関のドアは、わずかに開いていた。</p>
+            <p>中に入った瞬間――</p>
+
+            <div class="warning-box">
+                <p>　　異臭。<br>
+                　　腐ったような、生臭いような、鼻にこびりつく匂い。<br>
+                　　壁には、無数の傷。</p>
+            </div>
+
+            <p>刃物で引き裂いたような跡が、あちこちに走っていた。</p>
+
+            <p>床には――</p>
+            <p><span class="highlight">肉片のようなものが散らばっていた、</span>と彼は言った。</p>
+
+            <p>その場で、私に電話をかけた。</p>
+            <p>直感だったらしい。</p>
+
+            <p>私の泣きじゃくる声を聞いた瞬間、</p>
+            <p>B男は状況をすぐ察したとのこと。</p>
+
+            <p>私の家へ向かう途中。</p>
+            <p>巡回中の警察に止められた。</p>
+            <p>スマートフォンを片手に車を走らせていたためだろう。</p>
+            <p>俺はちょうどいいと思って、その場から逃走して</p>
+            <p>警察を引き連れる形で私の家へ向かった。</p>
+            <p>結果的に、それが功を奏した。</p>
+
+            <p>私のマンションに着いた頃には、</p>
+            <p>警察ともめる形になっていたらしい。</p>
+            <p>その時。</p>
+            <p>オーナーが駆け寄ってきた。</p>
+            <p>「変な女がいるんです」</p>
+            <p>顔面蒼白で、そう言ったという。</p>
+            <p>「刃物を持って、扉の前で叫んでる」</p>
+
+            <p>B男には後ほど事情聴取をする旨残し</p>
+            <p>現場へ向かった。</p>
+            <p>それがA子だ。</p>
+            <p>その後は、私の知る通りだった。</p>
+            <p><span class="highlight">A子は、その場で取り押さえられた。</span></p>
+        </section>
+
+        <div class="section-divider">
+            <div class="divider-line"></div>
+            <div class="divider-icon">◊</div>
+            <div class="divider-line"></div>
+        </div>
+
+        <!-- ===== 第8章 ===== -->
+        <section id="chapter8">
+            <h2><span class="chapter-number">第8章</span>つぎは私</h2>
+            <p>数日後事情聴取のため、私とB男は呼ばれた。</p>
+            <p>事情聴取は、淡々と進んだ。</p>
+
+            <p>「ここまで執着されるって、何したの？」</p>
+
+            <p>責めるような口調ではなかった。</p>
+            <p>ただ、理解できない、という響きだった。</p>
+
+            <p>私たちは説明した。</p>
+
+            <p>あの夜のこと。</p>
+            <p>廃病院で見たもの。</p>
+            <p>A子の変化。</p>
+            <p>だが、信じてもらえるはずもない。</p>
+
+            <p>当然だと思う。</p>
+            <p>証拠を見せた。</p>
+            <p>過去のやり取り。</p>
+            <p>写真。</p>
+            <p>A子が誰かを害する動機がないこと。</p>
+
+            <p>そして――</p>
+            <p>B男は、最後にこう補足した。</p>
+            <p>「肝試しで見た"女"と、A子の笑い方が同じなんです」</p>
+            <p>「目も……似ていて……」</p>
+            <p>そこまで言った瞬間。</p>
+
+            <p>空気が変わった。</p>
+            <p>警察官は、書類を閉じた。</p>
+            <p>「被害届を出さないなら、この件はここまでにします」</p>
+
+            <p>それ以上、踏み込まなかった。</p>
+            <p>いや――<span class="highlight">踏み込まないようにした、という方が近い。</span></p>
+            <p>納得はできなかった。</p>
+            <p>だが、それで終わった。</p>
+
+            <div class="section-divider">
+                <div class="divider-line"></div>
+                <div class="divider-icon">◆</div>
+                <div class="divider-line"></div>
+            </div>
+
+            <p>数日後。</p>
+            <p>私とB男は近くの寺を訪ねた。</p>
+
+            <p>理由は様々だ。</p>
+
+            <p>だが、結果は、あっさりしていた。</p>
+            <p>「お二人とも、特に問題はありませんね」</p>
+            <p>拍子抜けするほど、何もないと言われた。</p>
+            <p>私は、ひとつだけ尋ねた。</p>
+            <p>「A子は……どうなりますか」</p>
+
+            <p>住職は、少しだけ考える素振りを見せた後、答えた。</p>
+            <p>「警察の施設にもいくつか種類があります。」</p>
+            <p>「その中には、そういうものを剥がすための施設があります」</p>
+            <p>「恐らく、そこに連れて行かれているでしょう」</p>
+
+            <p>住職は少し間を置いて補足した。</p>
+            <p>「聞いた話から推測するに、<span class="highlight">それ</span>は土地神様の一種でなにかであろうと、</p>
+            <p>残念ながら私の力ではA子様をお助けすることは難しかったでしょう。」</p>
+
+            <p>それ以上は、語らなかった。</p>
+            <br></br>
+
+            <p>帰り道。</p>
+            <p>ふと、思い出した。</p>
+            <p>最初に出会った、あの<span class="highlight">"赤いワンピースの女"</span>。</p>
+            <p>廃病院で感じた気配。</p>
+
+            <p>そして――</p>
+            <p>A子の笑顔。</p>
+
+            <p>あれは、同一のものだったのではないか。</p>
+            <p>もし、そうだとしたら。</p>
+            <p>あの時、あれが指差していたのは――</p>
+            <p>私と、A子。</p>
+            <p>では、なぜ。</p>
+            <p><span class="highlight">取り憑かれたのは、A子だけだったのか。</span></p>
+
+            <p>答えは、今も分からない。</p>
+            <p>ただ一つ、言えることがある。</p>
+            <p><span class="highlight">あの夜。</span></p>
+            <p><span class="highlight">私も、振り返ってしまった。</span></p>
+
+            <div class="section-divider">
+                <div class="divider-line"></div>
+                <div class="divider-icon">◊</div>
+                <div class="divider-line"></div>
+            </div>
+
+            <p class="dramatic-text-large" style="margin-top: 50px;">それ以来。<br>
+            私は――<br>
+            後ろを見ない。</p>
+        </section>
+    </main>
+
+    <!-- ===== フッター ===== -->
+    <footer>
+        <p style="font-size: 1.2em; margin-bottom: 15px;">━━━━━━━━━━━</p>
+        <p>© 2026 心霊体験談「後ろを見ない」</p>
+        <p>すべての登場人物と事件は創作です</p>
+        <p style="margin-top: 15px; font-size: 0.9em;">⚠️ 夜間の閲覧にはご注意ください ⚠️</p>
+        <div class="footer-decoration">■ ■ ■ ■ ■</div>
+    </footer>
+
+    <!-- ===== スクロールトップボタン ===== -->
+    <button class="scroll-top" id="scrollTop">↑</button>
+
+    <!-- ===== JavaScript ===== -->
+    <script>
+        // ハンバーガーメニュー
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // メニューリンククリック時にメニューを閉じる
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // スクロールトップボタン
+        const scrollTopButton = document.getElementById('scrollTop');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopButton.classList.add('show');
+            } else {
+                scrollTopButton.classList.remove('show');
+            }
+        });
+
+        scrollTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // セクションのフェードインアニメーション（スタッガーエフェクト）
+        const sections = document.querySelectorAll('section');
+        sections.forEach((section, index) => {
+            section.style.animationDelay = `${index * 0.1}s`;
+        });
+    </script>
+</body>
+</html>
